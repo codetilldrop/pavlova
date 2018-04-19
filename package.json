@@ -2,7 +2,7 @@
   "name": "pavlova",
   "version": "0.0.1",
   "description": "a library allowing you to integrate image generation into your app",
-  "homepage": "https://github.com/qaily/pavlova#readme",
+  "homepage": "https://github.com/moshbean/pavlova#readme",
   "main": "index.js",
   "scripts": {
     "test": "pavlova v0.0.1 > OK && exit 1"
@@ -13,6 +13,6 @@
     "image generation",
     "library"
   ],
-  "author": "Joshua Quail (https://github.com/qaily/pavlova)",
+  "author": "Joshua Quail (https://github.com/moshbean/pavlova)",
   "license": "CC-BY-NC-4.0"
 }
