@@ -1,14 +1,15 @@
 # pavlova
-The pavlova library allows you to generate custom images using pixel arrays without fear of corrupted files.
-Pavlova supports a variety of formats, namely:
-
-+ .jpeg/jpg
-+ .png
+The pavlova library allows you to generate custom images using pixel arrays without fear of corrupted files. Pavlova currently supports a small selection of image formats, namely:
 + .bmp
+
+In future, a larger library of formats may be supported, including:
++ .jpg/jpeg
 + .gif
 + .tiff
 + .ico
----
+
+Current version: *0.0.1*
+
 ## Installation
 1. Run `npm i pavlova` in the shell to install the module.
 2. Add the following to your .js file to use the module.
@@ -16,13 +17,12 @@ Pavlova supports a variety of formats, namely:
 const pavlova = require("pavlova");
 // the rest of your code...
 ```
----
+
 ## Functions
 #### generateImage
-
 Creates a image containing the
 ```js
-generateImage(name, height, width);
+pavlova.generateImage(name, height, width, pixels);
 ```
 *name* - a string containing the file name of the new image (including the extension)
 
@@ -30,11 +30,9 @@ generateImage(name, height, width);
 
 *width* - the width of the image in pixels
 
-**Examples:**
-```js
-generateImage("foo.jpg", 512, 512);
-generateImage("barBaz.jpg", 2, 2000);
-```
+*pixels* - an array containing the color values of the pixels in the image as 3 byte hex values, organised left-to-right then top-to-bottom
+
+## In development
 #### convertImage
 Converts an existing file to a new image format
 ```js
@@ -44,17 +42,9 @@ convertImage(name, newName);
 
 *newName* - a string containing the name of the new image (including the extension)
 
-**Examples:**
-```js
-convertImage("foo.jpg", "bar.bmp");
-convertImage("example.png", "anotherExample.tiff");
-```
----
+#### Support for .png
+
 ## Changelog
-
-0.0.1
-+ Added convertImage function
+**0.0.1**
++ Added generateImage function
 + Support of .bmp files
-
-0.0.2
-+ ???
