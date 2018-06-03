@@ -19,10 +19,10 @@ var response = pavlova.search(search);
 {
   "query": "your search query",
   "output": "an output file (optional)",
-  "size": "size:",
-  "color": "color:",
+  "size": "size: huge, icon, large, medium, small, xlarge or xxlarge",
+  "color": "color: color, gray or mono",
   "filetype": "filetype: the extension of an image type",
-  "safeSearch": "safe search:"
+  "safeSearch": "safe search: high, medium or off"
 }
 ```
 
@@ -63,5 +63,6 @@ var res3 = pavlova.search({
 
 ## Changelog
 **0.1.0**
-+ README.md
 + Added `search(search)` function
+**0.1.1**
++ README.md
