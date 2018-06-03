@@ -1,11 +1,11 @@
 {
   "name": "pavlova",
-  "version": "0.0.1",
-  "description": "a library allowing you to integrate image generation into your app",
-  "homepage": "https://github.com/moshbean/pavlova#readme",
+  "version": "0.1.0",
+  "description": "a library allowing you to generate an image or it's metadata from a custom Google Images query",
+  "homepage": "https://github.com/realtable/pavlova",
   "main": "index.js",
   "scripts": {
-    "test": "pavlova v0.0.1 > OK && exit 1"
+    "test": "echo 'pavlova (v0.1.0) is OK' && exit 1"
   },
   "keywords": [
     "image",
@@ -13,6 +13,9 @@
     "image generation",
     "library"
   ],
-  "author": "Joshua Quail (https://github.com/moshbean/pavlova)",
-  "license": "CC-BY-NC-4.0"
+  "author": "Joshua Quail (https://github.com/realtable/pavlova)",
+  "license": "CC-BY-NC-4.0",
+  "dependencies": {
+    "request": "^2.85.0"
+  }
 }

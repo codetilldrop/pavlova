@@ -1,79 +1,80 @@
-const fs = require("fs");
+const request = require('request');
+const { exec } = require('child_process');
+const fs = require('fs');
 
-function generateImage(name, height, width, pixels) {
-  var config = { encoding: "hex" };
-  var stream = fs.createWriteStream(name, config);
+function search(search, callback) {
+  // user's query (if not specified, undefined)
+  var q = {
+    "q": search.query,
+    "searchType": "image",
+    "imgColorType": search.color,
+    "imgSize": search.imgSize,
+    "imgType": search.filetype,
+    "safe": search.safeSearch,
+    "key": "AIzaSyA0QKjNkj4bHMfSXUTw7chK3FqrhIIfHOE",
+    "cx": "011392782720410225953:ykizpm_tl9i"
+  };
 
-  var extension = name.split(".")[1];
-  if (extension == "bmp") {
-    var dataSize = height * width; // size of bitmap data
-    var totalSize = dataSize + 54; // size of bitmap data + header size
+  // query url
+  var url = 'https://www.googleapis.com/customsearch/v1';
+  var chunks = [];
 
-    var bmpHeader = [];
-    bmpHeader.push(0x42, 0x4d); // id field
-    // size of file
-    bmpHeader.push(0x00, 0x00, 0x00, 0x00); // --unused space--
-    bmpHeader.push(0x36, 0x00, 0x00, 0x00); // offset of bitmap data
+  // sends the query
+  request.get({ url: url, qs: q })
+  .on('error', function (err) {
+    var response = {
+      "written": false
+    };
+    console.error("ERROR: failed to connect to API server. Have you tired checking your internet connectivity?");
+  }).on('data', function (data) {
+    // add data
+    chunks.push(data);
+  }).on('end', function () {
+    // parse result
+    var result = JSON.parse(Buffer.concat(chunks));
 
-    var dibHeader = [];
-    dibHeader.push(0x28, 0x00, 0x00, 0x00); // size of dib header
-    // width in pixels
-    // height in pixels
-    dibHeader.push(0x01, 0x00); // number of color planes used
-    dibHeader.push(0x18, 0x00); // bits per pixel
-    dibHeader.push(0x00, 0x00, 0x00, 0x00); // compression
-    // size of bitmap data
-    dibHeader.push(0x13, 0x0b, 0x00, 0x00); // print resolution (horizontal)
-    dibHeader.push(0x13, 0x0b, 0x00, 0x00); // print resolution (vertical)
-    dibHeader.push(0x00, 0x00, 0x00, 0x00); // number of colors
-    dibHeader.push(0x00, 0x00, 0x00, 0x00); // important colors
+    if (search.output != undefined) {
+      stream = fs.createWriteStream(search.output);
 
-    // add bmp header to file
-    for (size = 0; size < bmpHeader.length; size++) {
-      stream.write(String.fromCharCode(bmpHeader[size]));
+      // get the image
+      if (result.items != undefined) {
+        request.get(result.items[0].link)
+        .on('error', function (err) {
+          var response = {
+            "written": false
+          };
+          console.error("ERROR: no source file found as it has probably been moved.");
+        }).on('data', function (data) {
+          stream.write(data, function () {});
+        }).on('end', function () {
+          var response = {
+            "url": result.items[0].link,
+            "page": result.items[0].image.contextLink,
+            "title": result.items[0].title,
+            "height": result.items[0].image.height,
+            "width": result.items[0].image.width,
+            "written": true
+          };
+          stream.end();
+        });
+      } else {
+        var response = {
+          "written": false
+        };
+        console.error("ERROR: no search results returned. Have you tried using less obscure search terms?");
+      }
+    } else {
+      var response = {
+        "url": result.items[0].link,
+        "page": result.items[0].image.contextLink,
+        "title": result.items[0].title,
+        "height": result.items[0].image.height,
+        "width": result.items[0].image.width,
+        "written": false
+      };
     }
 
-    // add dib header to file
-    for (size = 0; size < dibHeader.length; size++) {
-      stream.write(String.fromCharCode(dibHeader[size]));
-    }
-  }
+  });
 
-  // add bitmap data to file
-  for (row = 0; i < height; row++) {
-    for (col = 0; i < width; col++) {
-      var pos = ((height - row) * width + width) * 3;
-      stream.write(String.fromCharCode(pixels[pos]));
-      stream.write(String.fromCharCode(pixels[pos + 1]));
-      stream.write(String.fromCharCode(pixels[pos + 2]));
-    }
-  }
-  stream.end();
+  return response;
 }
-
-function convertImage(name, newName) {
-  fs.renameSync(name, newName);
-}
-
-// var config = { encoding: "ascii" };
-// var stream = fs.createWriteStream("test.txt", config);
-// console.log(String.fromCharCode(0x4c));
-// stream.write(String.fromCharCode(0x4c));
-// stream.end();
-
-var name = "hello.bmp";
-var extension = name.split(".")[1];
-console.log(extension);
-
-var num = 0xff4455;
-var pixel = num.toString(16);
-var red = pixel[0] + pixel[1];
-var green = pixel[2] + pixel[3];
-var blue = pixel[4] + pixel[5];
-console.log(red, green, blue);
-
-var pixels = [0x2318, 0xf8ff, 0x2325];
-var pos = 0;
-console.log(String.fromCharCode(pixels[pos]));
-console.log(String.fromCharCode(pixels[pos + 1]));
-console.log(String.fromCharCode(pixels[pos + 2]));

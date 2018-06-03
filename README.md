@@ -1,50 +1,67 @@
 # pavlova
-The pavlova library allows you to generate custom images using pixel arrays without fear of corrupted files. Pavlova currently supports a small selection of image formats, namely:
-+ .bmp
-
-In future, a larger library of formats may be supported, including:
-+ .jpg/jpeg
-+ .gif
-+ .tiff
-+ .ico
-
-Current version: *0.0.1*
+The pavlova library allows you to get images from custom Google image searches.
 
 ## Installation
 1. Run `npm i pavlova` in the shell to install the module.
-2. Add the following to your .js file to use the module.
+2. Add the following to the top of your file your file.
 ```js
-const pavlova = require("pavlova");
+const pavlova = require('pavlova');
 // the rest of your code...
 ```
 
-## Functions
-#### generateImage
-Creates a image containing the
+## Usage
 ```js
-pavlova.generateImage(name, height, width, pixels);
+var response = pavlova.search(search);
 ```
-*name* - a string containing the file name of the new image (including the extension)
+*search* - an object containing query data
 
-*height* - the height of the image in pixels
+```JSON
+{
+  "query": "your search query",
+  "output": "an output file (optional)",
+  "size": "size:",
+  "color": "color:",
+  "filetype": "filetype: the extension of an image type",
+  "safeSearch": "safe search:"
+}
+```
 
-*width* - the width of the image in pixels
+*response* - an object containing information about the image returned
 
-*pixels* - an array containing the color values of the pixels in the image as 3 byte hex values, organised left-to-right then top-to-bottom
+```JSON
+{
+  "url": "url of the image",
+  "page": "url of the page where the image originated",
+  "title": "title of the page where the image originated",
+  "height": "the image's height in pixels",
+  "width": "the image's width in pixels",
+  "written": "whether the image was written to the file or not"
+}
+```
 
-## In development
-#### convertImage
-Converts an existing file to a new image format
+## Examples
 ```js
-convertImage(name, newName);
+// example 1
+var res = pavlova.search({
+  "query": "Hello, World!",
+  "output": "helloworld.png"
+});
+
+// example 2
+var res2 = pavlova.search({
+  "query": "uhfaiuharguguaierg",
+  "output": "keymash.jpg"
+});
+// res2.written is false because no search results were returned
+
+// example 3
+var res3 = pavlova.search({
+  "query": "foo bar baz"
+});
+// res2.written is false because no query was supplied
 ```
-*name* - a string containing the file name of an existing image (including the extension)
-
-*newName* - a string containing the name of the new image (including the extension)
-
-#### Support for .png
 
 ## Changelog
-**0.0.1**
-+ Added generateImage function
-+ Support of .bmp files
+**0.1.0**
++ README.md
++ Added `search(search)` function
