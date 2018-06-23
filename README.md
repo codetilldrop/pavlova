@@ -1,4 +1,4 @@
-### **__*ALERT USER: Please go to [pavlova.now.sh](https://pavlova.now.sh) to view an open source and up to date version of this repository.*__**
+### **__*ALERT USER: Please go to [pavlova.now.sh/_src](https://pavlova.now.sh/_src) to view an open source and up to date version of this repository.*__**
 
 # pavlova
 The pavlova library allows you to get images from custom Google image searches.
