@@ -1,11 +1,11 @@
 {
   "name": "pavlova",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "description": "a library allowing you to generate an image or it's metadata from a custom Google Images query",
-  "homepage": "https://github.com/realtable/pavlova",
+  "homepage": "https://pavlova.now.sh/_src",
   "main": "index.js",
-  "scripts": {
-    "test": "echo 'pavlova (v0.1.1) is OK' && exit 1"
+  "_scripts": {
+    "start": "node tester.js"
   },
   "keywords": [
     "image",
@@ -13,9 +13,10 @@
     "image generation",
     "library"
   ],
-  "author": "Joshua Quail (https://github.com/realtable/pavlova)",
+  "author": "Joshua Quail",
   "license": "CC-BY-NC-4.0",
   "dependencies": {
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "now-env": "^3.1.0"
   }
 }
